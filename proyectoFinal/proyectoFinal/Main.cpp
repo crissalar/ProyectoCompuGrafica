@@ -1,7 +1,5 @@
-﻿// Practica 10                               Cristina Silva Alarcón
-// Fecha de Entrega: 19 abril 2026                       319271108
-
-#include <iostream>
+﻿#include <iostream>
+#include <cmath>
 
 // GLEW
 #include <GL/glew.h>
@@ -49,8 +47,7 @@ int main()
 {
     glfwInit();
 
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT,
-        "Practica 10 - Cristina Silva Alarcon", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Visor FBX - Escenario", nullptr, nullptr);
     if (nullptr == window)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -62,7 +59,6 @@ int main()
     glfwGetFramebufferSize(window, &SCREEN_WIDTH, &SCREEN_HEIGHT);
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetCursorPosCallback(window, MouseCallback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glewExperimental = GL_TRUE;
     if (GLEW_OK != glewInit())
@@ -74,14 +70,13 @@ int main()
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     glEnable(GL_DEPTH_TEST);
 
-    Shader modelLoadingShader("Shader/modelLoading.vs", "Shader/modelLoading.frag");
+    // Se utilizan los shaders de modelLoading para cargar texturas y mallas del FBX correctamente
+    Shader shader("Shader/modelLoading.vs", "Shader/modelLoading.frag");
 
-    Model Puente((char*)"Models/puente_sin_personas.fbx");
+    // Carga del modelo FBX
+    Model Escenario((char*)"Models/puente_sin_personas.obj");
 
-    glm::mat4 projection = glm::perspective(camera.GetZoom(),
-        (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 100.0f);
-
-    // ── Game loop ────────────────────────────────────────────────
+    // Game loop
     while (!glfwWindowShouldClose(window))
     {
         GLfloat currentFrame = glfwGetTime();
@@ -91,23 +86,33 @@ int main()
         glfwPollEvents();
         DoMovement();
 
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        modelLoadingShader.Use();
+        shader.Use();
 
+        // Transformaciones de cámara
+        glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
-        GLint modelLoc = glGetUniformLocation(modelLoadingShader.Program, "model");
-        GLint viewLoc = glGetUniformLocation(modelLoadingShader.Program, "view");
-        GLint projLoc = glGetUniformLocation(modelLoadingShader.Program, "projection");
+
+        GLint viewLoc = glGetUniformLocation(shader.Program, "view");
+        GLint projLoc = glGetUniformLocation(shader.Program, "projection");
+        GLint modelLoc = glGetUniformLocation(shader.Program, "model");
 
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-        glm::mat4 model(1);
-        model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+        // Transformación del modelo
+        glm::mat4 model(1.0f);
+
+        // Si el puente se ve muy grande, pequeño, o fuera de centro, descomenta y ajusta estas líneas:
+        // model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
+        // model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); 
+
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        Puente.Draw(modelLoadingShader);
+
+        // Dibujar el modelo
+        Escenario.Draw(shader);
 
         glfwSwapBuffers(window);
     }
@@ -133,7 +138,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 
     if (key >= 0 && key < 1024)
     {
-        if (action == GLFW_PRESS)        keys[key] = true;
+        if (action == GLFW_PRESS)   keys[key] = true;
         else if (action == GLFW_RELEASE) keys[key] = false;
     }
 }

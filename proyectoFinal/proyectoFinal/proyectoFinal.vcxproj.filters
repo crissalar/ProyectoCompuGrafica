@@ -18,7 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animación_Básica.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,6 +53,12 @@
       <Filter>Archivos de origen\Shader</Filter>
     </None>
     <None Include="Shader\SkyBox.vs">
+      <Filter>Archivos de origen\Shader</Filter>
+    </None>
+    <None Include="Shader\10_vertex_simple.vs">
+      <Filter>Archivos de origen\Shader</Filter>
+    </None>
+    <None Include="Shader\10_fragment_simple.fs">
       <Filter>Archivos de origen\Shader</Filter>
     </None>
   </ItemGroup>
