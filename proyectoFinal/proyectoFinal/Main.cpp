@@ -1,6 +1,6 @@
 ﻿/*
 *
-* 05 - Carga de modelos e interacción
+* proyecto final
 */
 
 #include <iostream>
@@ -203,7 +203,7 @@ bool Update() {
 
 	glUseProgram(0);
 
-	// Actividad 3.1: Dibujar personaje
+	// Proceso para hacer un modelo animado
 	// Objeto dinámico (Personaje animado)
 	/* {
 		// Actualización de la animación
@@ -233,14 +233,6 @@ bool Update() {
 	// Desactivamos el shader actual
 	//yyyglUseProgram(0);
 
-	// Actividad 4.0
-	// Aquí desplegamos los demás modelos, cada uno con su propio
-	// ciclo de renderizado bajo el siguiente algoritmo
-	// a) Activar shader estático/dinámico
-	// b) Crear matrices de proyección, vista, modelo
-	// c) Enviar matrices al shader correspondiente
-	// d) Dibujar el modelo
-	// e) Desactivar shader
 
 	// glfw: swap buffers 
 	glfwSwapBuffers(window);
