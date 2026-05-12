@@ -76,13 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\proyectoFinal;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\lib\x64\Debug;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;glad.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,13 +93,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\proyectoFinal;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\lib\x64\Debug;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;glad.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,13 +108,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\proyectoFinal;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\lib\x64\Debug;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;glad.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,23 +125,42 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\proyectoFinal;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glm;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\include;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\glad\MSVC2022\lib\x64\Debug;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\SOIL2\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\assimp\lib;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLFW\lib-vc2015;C:\Users\Cristy\Documents\GitHub\ProyectoCompuGrafica\proyectoFinal\External Libraries\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>soil2-debug.lib;assimp-vc140-mt.lib;opengl32.lib;glew32.lib;glfw3.lib;glad.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\External Libraries\glad\MSVC2022\src\glad.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animatedmodel.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Instance.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="modelstructs.h" />
+    <ClInclude Include="particles.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="shader_m.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\09_fragment_skinning.fs" />
+    <None Include="Shader\09_vertex_skinning.vs" />
     <None Include="Shader\10_fragment_simple.fs" />
     <None Include="Shader\10_vertex_simple.vs" />
     <None Include="Shader\lamp.frag" />

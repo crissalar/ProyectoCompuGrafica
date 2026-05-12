@@ -1,162 +1,337 @@
-﻿#include <iostream>
-#include <cmath>
+﻿/*
+*
+* 05 - Carga de modelos e interacción (Adaptado para GLEW)
+*/
 
-// GLEW
-#include <GL/glew.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
-// GLFW
+#include <iostream>
+#include <stdlib.h>
+
+// GLEW: The OpenGL Extension Wrangler Library 
+// IMPORTANTE: Siempre debe incluirse antes que GLFW
+//#include <GL/glew.h>
+#include <glad/glad.h>
+
+// GLFW: https://www.glfw.org/
 #include <GLFW/glfw3.h>
 
-// Other Libs
-#include "stb_image.h"
-
-// GLM Mathematics
+// GLM: OpenGL Math library
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-// Load Models
-#include "SOIL2/SOIL2.h"
+// Model loading classes
+#include <shader_m.h>
+#include <camera.h>
+#include <model.h>
+#include <animatedmodel.h>
+#include <iostream>
 
-// Other includes
-#include "Shader.h"
-#include "Camera.h"
-#include "Model.h"
+// Functions
+bool Start();
+bool Update();
 
-// Function prototypes
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
-void MouseCallback(GLFWwindow* window, double xPos, double yPos);
-void DoMovement();
+// Definición de callbacks
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void processInput(GLFWwindow* window);
 
-// Window dimensions
-const GLuint WIDTH = 800, HEIGHT = 600;
-int SCREEN_WIDTH, SCREEN_HEIGHT;
+// Gobals
+GLFWwindow* window;
 
-// Camera
-Camera camera(glm::vec3(0.0f, 3.0f, 6.0f));
-GLfloat lastX = WIDTH / 2.0;
-GLfloat lastY = HEIGHT / 2.0;
-bool keys[1024];
+// Tamaño en pixeles de la ventana
+const unsigned int SCR_WIDTH = 1024;
+const unsigned int SCR_HEIGHT = 768;
+
+// Definición de cámara (posición en XYZ)
+Camera camera(glm::vec3(0.0f, 2.0f, 10.0f));
+
+// Controladores para el movimiento del mouse
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
-// Deltatime
-GLfloat deltaTime = 0.0f;
-GLfloat lastFrame = 0.0f;
+// Variables para la velocidad de reproducción
+// de la animación
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
+
+glm::vec3 position(0.0f, 0.0f, 0.0f);
+glm::vec3 forwardView(0.0f, 0.0f, 1.0f);
+float     scaleV = 0.005f;
+float     rotateCharacter = 0.0f;
+float     rotateTable = 0.0f;
+
+// Shaders
+Shader* staticShader;
+Shader* dynamicShader;
+
+// Carga la información del modelo
+Model* house;
+// Model *chair, *table;
+AnimatedModel* character;
+
+// Entrada a función principal
 int main()
 {
-    glfwInit();
+	if (!Start())
+		return -1;
 
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Visor FBX - Escenario", nullptr, nullptr);
-    if (nullptr == window)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return EXIT_FAILURE;
-    }
+	/* Loop de renderizado (hasta que el usuario cierre la ventana) */
+	while (!glfwWindowShouldClose(window))
+	{
+		if (!Update())
+			break;
+	}
 
-    glfwMakeContextCurrent(window);
-    glfwGetFramebufferSize(window, &SCREEN_WIDTH, &SCREEN_HEIGHT);
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetCursorPosCallback(window, MouseCallback);
-
-    glewExperimental = GL_TRUE;
-    if (GLEW_OK != glewInit())
-    {
-        std::cout << "Failed to initialize GLEW" << std::endl;
-        return EXIT_FAILURE;
-    }
-
-    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    glEnable(GL_DEPTH_TEST);
-
-    // Se utilizan los shaders de modelLoading para cargar texturas y mallas del FBX correctamente
-    Shader shader("Shader/modelLoading.vs", "Shader/modelLoading.frag");
-
-    // Carga del modelo FBX
-    Model Escenario((char*)"Models/puente_sin_personas.obj");
-
-    // Game loop
-    while (!glfwWindowShouldClose(window))
-    {
-        GLfloat currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-
-        glfwPollEvents();
-        DoMovement();
-
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        shader.Use();
-
-        // Transformaciones de cámara
-        glm::mat4 projection = glm::perspective(camera.GetZoom(), (GLfloat)SCREEN_WIDTH / (GLfloat)SCREEN_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 view = camera.GetViewMatrix();
-
-        GLint viewLoc = glGetUniformLocation(shader.Program, "view");
-        GLint projLoc = glGetUniformLocation(shader.Program, "projection");
-        GLint modelLoc = glGetUniformLocation(shader.Program, "model");
-
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-        // Transformación del modelo
-        glm::mat4 model(1.0f);
-
-        // Si el puente se ve muy grande, pequeño, o fuera de centro, descomenta y ajusta estas líneas:
-        // model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
-        // model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f)); 
-
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-        // Dibujar el modelo
-        Escenario.Draw(shader);
-
-        glfwSwapBuffers(window);
-    }
-
-    glfwTerminate();
-    return 0;
+	// glfw: Terminamos el programa y liberamos memoria
+	glfwTerminate();
+	return 0;
 }
 
-// ── DoMovement ───────────────────────────────────────────────────
-void DoMovement()
-{
-    if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])    camera.ProcessKeyboard(FORWARD, deltaTime);
-    if (keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN])  camera.ProcessKeyboard(BACKWARD, deltaTime);
-    if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT])  camera.ProcessKeyboard(LEFT, deltaTime);
-    if (keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT]) camera.ProcessKeyboard(RIGHT, deltaTime);
+bool Start() {
+	char path[256];
+	GetCurrentDirectoryA(256, path);
+	std::cout << "Directorio actual: " << path << std::endl;
+
+	std::cout << "1. Iniciando glfwInit..." << std::endl;
+	glfwInit();
+	std::cout << "2. glfwInit OK" << std::endl;
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	std::cout << "3. Creando ventana..." << std::endl;
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FBX Model Loading", NULL, NULL);
+	if (window == NULL) {
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return false;
+	}
+	std::cout << "4. Ventana creada OK" << std::endl;
+
+	glfwMakeContextCurrent(window);
+	std::cout << "5. Contexto activo" << std::endl;
+
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+
+	std::cout << "6. Iniciando GLAD..." << std::endl;
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return false;
+	}
+	std::cout << "7. GLAD OK" << std::endl;
+	std::cout << "glGenTextures ptr: " << (void*)glGenTextures << std::endl;
+
+	std::cout << "8. Activando depth test..." << std::endl;
+	glEnable(GL_DEPTH_TEST);
+
+	std::cout << "9. Compilando shaders..." << std::endl;
+	dynamicShader = new Shader("Shader/09_vertex_skinning.vs", "Shader/09_fragment_skinning.fs");
+	staticShader = new Shader("Shader/10_vertex_simple.vs", "Shader/10_fragment_simple.fs");
+	std::cout << "10. Shaders OK" << std::endl;
+
+	dynamicShader->setBonesIDs(MAX_RIGGING_BONES);
+	std::cout << "11. BonesIDs OK" << std::endl;
+
+	std::cout << "12. Cargando modelo lobby..." << std::endl;
+	try {
+		house = new Model("Models/Lobby/lobby.obj");
+		std::cout << "13. Modelo cargado OK" << std::endl;
+	}
+	catch (const std::exception& e) {
+		std::cout << "Excepcion al cargar modelo: " << e.what() << std::endl;
+	}
+
+	return true;
 }
 
-// ── KeyCallback ──────────────────────────────────────────────────
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-    if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
-        glfwSetWindowShouldClose(window, GL_TRUE);
+bool Update() {
+	// Cálculo del framerate
+	float currentFrame = (float)glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
 
-    if (key >= 0 && key < 1024)
-    {
-        if (action == GLFW_PRESS)   keys[key] = true;
-        else if (action == GLFW_RELEASE) keys[key] = false;
-    }
+	// Procesa la entrada del teclado o mouse
+	processInput(window);
+
+	// Renderizado R - G - B - A
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
+	glm::mat4 view = camera.GetViewMatrix();
+
+	// Actividad 2.1: Dibujar modelo de casa
+	// Objeto estático (casa)
+	{
+		// Activamos el shader del plano
+		staticShader->use();
+
+		// Activamos para objetos transparentes
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		// Aplicamos transformaciones de proyección y cámara (si las hubiera)
+		staticShader->setMat4("projection", projection);
+		staticShader->setMat4("view", view);
+
+		// Aplicamos transformaciones del modelo
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+		staticShader->setMat4("model", model);
+
+		house->Draw(*staticShader);
+	}
+
+	glUseProgram(0);
+
+	// Actividad 3.1: Dibujar personaje
+	// Objeto dinámico (Personaje animado)
+	/* {
+		// Actualización de la animación
+		character->UpdateAnimation(deltaTime);
+
+		// Activación del shader del personaje
+		dynamicShader->use();
+
+		// Aplicamos transformaciones de proyección y cámara (si las hubiera)
+		dynamicShader->setMat4("projection", projection);
+		dynamicShader->setMat4("view", view);
+
+		// Aplicamos transformaciones del modelo
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, position); // translate it down so it's at the center of the scene
+		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
+
+		dynamicShader->setMat4("model", model);
+
+		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, character->gBones);
+
+		// Dibujamos el modelo
+		character->Draw(*dynamicShader);
+	}*/
+
+	// Desactivamos el shader actual
+	//glUseProgram(0);
+
+	// Actividad 4.0
+	// Aquí desplegamos los demás modelos, cada uno con su propio
+	// ciclo de renderizado bajo el siguiente algoritmo
+	// a) Activar shader estático/dinámico
+	// b) Crear matrices de proyección, vista, modelo
+	// c) Enviar matrices al shader correspondiente
+	// d) Dibujar el modelo
+	// e) Desactivar shader
+
+	// glfw: swap buffers 
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+
+	return true;
 }
 
-// ── MouseCallback ────────────────────────────────────────────────
-void MouseCallback(GLFWwindow* window, double xPos, double yPos)
+// Procesamos entradas del teclado
+void processInput(GLFWwindow* window)
 {
-    if (firstMouse)
-    {
-        lastX = xPos;
-        lastY = yPos;
-        firstMouse = false;
-    }
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 
-    GLfloat xOffset = xPos - lastX;
-    GLfloat yOffset = lastY - yPos;
-    lastX = xPos;
-    lastY = yPos;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+	// Movimiento vertical (Vuelo) agregados
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		camera.ProcessKeyboard(UP_DIR, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		camera.ProcessKeyboard(DOWN_DIR, deltaTime);
 
-    camera.ProcessMouseMovement(xOffset, yOffset);
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+
+	// Character movement
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		position = position + scaleV * forwardView;
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		position = position - scaleV * forwardView;
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		rotateCharacter += 0.5f;
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec4 viewVector = model * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		forwardView = glm::vec3(viewVector);
+		forwardView = glm::normalize(forwardView);
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		rotateCharacter -= 0.5f;
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec4 viewVector = model * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		forwardView = glm::vec3(viewVector);
+		forwardView = glm::normalize(forwardView);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+	{
+		// rotateTable += 0.05f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+	{
+		// rotateTable -= 0.05f;
+	}
+}
+
+// glfw: Actualizamos el puerto de vista si hay cambios del tamaño de la ventana
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+// glfw: Callback del movimiento y eventos del mouse
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = (float)xpos;
+		lastY = (float)ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = (float)xpos - lastX;
+	float yoffset = lastY - (float)ypos;
+
+	lastX = (float)xpos;
+	lastY = (float)ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+// glfw: Complemento para el movimiento y eventos del mouse
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll((float)yoffset);
 }

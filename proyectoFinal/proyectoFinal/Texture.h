@@ -1,7 +1,4 @@
 #pragma once
-// GLEW
-#include <GL/glew.h>
-
 // Other Libs
 #include "stb_image.h"
 
