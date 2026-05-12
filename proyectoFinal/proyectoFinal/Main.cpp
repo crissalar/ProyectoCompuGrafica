@@ -1,17 +1,13 @@
 ﻿/*
 *
-* 05 - Carga de modelos e interacción (Adaptado para GLEW)
+* 05 - Carga de modelos e interacción
 */
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 
 #include <iostream>
 #include <stdlib.h>
 
-// GLEW: The OpenGL Extension Wrangler Library 
-// IMPORTANTE: Siempre debe incluirse antes que GLFW
-//#include <GL/glew.h>
+// GLAD: Multi-Language GL/GLES/EGL/GLX/WGL Loader-Generator
+// https://glad.dav1d.de/
 #include <glad/glad.h>
 
 // GLFW: https://www.glfw.org/
@@ -81,11 +77,20 @@ int main()
 	if (!Start())
 		return -1;
 
-	/* Loop de renderizado (hasta que el usuario cierre la ventana) */
+	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		if (!Update())
 			break;
+	}
+
+	glfwTerminate();
+	return 0;
+
+	// Loop de renderizado
+	while (!glfwWindowShouldClose(window))
+	{
+
 	}
 
 	// glfw: Terminamos el programa y liberamos memoria
@@ -94,62 +99,64 @@ int main()
 }
 
 bool Start() {
-	char path[256];
-	GetCurrentDirectoryA(256, path);
-	std::cout << "Directorio actual: " << path << std::endl;
+	// Inicialización de GLFW
 
-	std::cout << "1. Iniciando glfwInit..." << std::endl;
 	glfwInit();
-	std::cout << "2. glfwInit OK" << std::endl;
-
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	std::cout << "3. Creando ventana..." << std::endl;
+	// Creación de la ventana con GLFW
 	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FBX Model Loading", NULL, NULL);
-	if (window == NULL) {
+	if (window == NULL)
+	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return false;
 	}
-	std::cout << "4. Ventana creada OK" << std::endl;
-
 	glfwMakeContextCurrent(window);
-	std::cout << "5. Contexto activo" << std::endl;
-
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
-	std::cout << "6. Iniciando GLAD..." << std::endl;
+	// Ocultar el cursor mientras se rota la escena
+	// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	// glad: Cargar todos los apuntadores
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
-	std::cout << "7. GLAD OK" << std::endl;
-	std::cout << "glGenTextures ptr: " << (void*)glGenTextures << std::endl;
 
-	std::cout << "8. Activando depth test..." << std::endl;
+	// Activación de buffer de profundidad
 	glEnable(GL_DEPTH_TEST);
 
-	std::cout << "9. Compilando shaders..." << std::endl;
+	// Compilación y enlace de shaders
 	dynamicShader = new Shader("Shader/09_vertex_skinning.vs", "Shader/09_fragment_skinning.fs");
 	staticShader = new Shader("Shader/10_vertex_simple.vs", "Shader/10_fragment_simple.fs");
-	std::cout << "10. Shaders OK" << std::endl;
 
+	// Máximo número de huesos: 100 por defecto
 	dynamicShader->setBonesIDs(MAX_RIGGING_BONES);
-	std::cout << "11. BonesIDs OK" << std::endl;
 
-	std::cout << "12. Cargando modelo lobby..." << std::endl;
-	try {
-		house = new Model("Models/Lobby/lobby.obj");
-		std::cout << "13. Modelo cargado OK" << std::endl;
-	}
-	catch (const std::exception& e) {
-		std::cout << "Excepcion al cargar modelo: " << e.what() << std::endl;
-	}
+	// Actividad 2.0: Importar modelo de casa
+	house = new Model("models/Lobby/lobby.obj");
+
+	// Dibujar en distintos modos de despliegue
+	//	   GL_LINE: Modo Malla de alambre
+	// 	   GL_POINT: Modo puntos
+	// 	   GL_FILL: Modo sólido
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	// Actividad 3.0: Importar personaje
+	//character = new AnimatedModel("models/character.fbx");
+
+	// Actividad 4.0
+	// Aquí cargamos los otros modelos de tipo estático
+	// chair = new Model("models/chair.fbx");
+	// table = new Model("models/table.fbx");
 
 	return true;
 }
@@ -224,7 +231,7 @@ bool Update() {
 	}*/
 
 	// Desactivamos el shader actual
-	//glUseProgram(0);
+	//yyyglUseProgram(0);
 
 	// Actividad 4.0
 	// Aquí desplegamos los demás modelos, cada uno con su propio
@@ -242,6 +249,7 @@ bool Update() {
 	return true;
 }
 
+// Procesamos entradas del teclado
 // Procesamos entradas del teclado
 void processInput(GLFWwindow* window)
 {
@@ -305,7 +313,8 @@ void processInput(GLFWwindow* window)
 	}
 }
 
-// glfw: Actualizamos el puerto de vista si hay cambios del tamaño de la ventana
+// glfw: Actualizamos el puerto de vista si hay cambios del tamaño
+// de la ventana
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);

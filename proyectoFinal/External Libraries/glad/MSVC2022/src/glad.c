@@ -19,7 +19,6 @@
         https://glad.dav1d.de/#profile=compatibility&language=c-debug&specification=gl&loader=on&api=gl%3D4.6
 */
 
-#define GLAD_GL_IMPLEMENTATION
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
