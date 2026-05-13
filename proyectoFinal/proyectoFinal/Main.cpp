@@ -1,6 +1,6 @@
 ﻿/*
 *
-* proyecto final
+* 05 - Carga de modelos e interacción
 */
 
 #include <iostream>
@@ -68,6 +68,7 @@ Shader* dynamicShader;
 
 // Carga la información del modelo
 Model* house;
+Model* escenario; // <-- Añadido para el escenario
 // Model *chair, *table;
 AnimatedModel* character;
 
@@ -139,24 +140,10 @@ bool Start() {
 	// Máximo número de huesos: 100 por defecto
 	dynamicShader->setBonesIDs(MAX_RIGGING_BONES);
 
-	// Actividad 2.0: Importar modelo de casa
 	house = new Model("models/Lobby/lobby.obj");
-
-	// Dibujar en distintos modos de despliegue
-	//	   GL_LINE: Modo Malla de alambre
-	// 	   GL_POINT: Modo puntos
-	// 	   GL_FILL: Modo sólido
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-	// glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+	escenario = new Model("models/Lobby/escenario.obj"); // <-- Carga del modelo escenario
 	// Actividad 3.0: Importar personaje
 	//character = new AnimatedModel("models/character.fbx");
-
-	// Actividad 4.0
-	// Aquí cargamos los otros modelos de tipo estático
-	// chair = new Model("models/chair.fbx");
-	// table = new Model("models/table.fbx");
 
 	return true;
 }
@@ -176,8 +163,6 @@ bool Update() {
 
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
 	glm::mat4 view = camera.GetViewMatrix();
-
-	// Actividad 2.1: Dibujar modelo de casa
 	// Objeto estático (casa)
 	{
 		// Activamos el shader del plano
@@ -191,7 +176,7 @@ bool Update() {
 		staticShader->setMat4("projection", projection);
 		staticShader->setMat4("view", view);
 
-		// Aplicamos transformaciones del modelo
+		// Aplicamos transformaciones del modelo (CASA)
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
 		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -199,11 +184,22 @@ bool Update() {
 		staticShader->setMat4("model", model);
 
 		house->Draw(*staticShader);
+
+		// Aplicamos transformaciones del modelo (ESCENARIO)
+		glm::mat4 modelEscenario = glm::mat4(1.0f);
+		modelEscenario = glm::translate(modelEscenario, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelEscenario = glm::rotate(modelEscenario, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelEscenario = glm::scale(modelEscenario, glm::vec3(1.0f, 1.0f, 1.0f));
+		staticShader->setMat4("model", modelEscenario);
+
+		escenario->Draw(*staticShader); // <-- Dibujando el escenario
 	}
 
 	glUseProgram(0);
 
-	// Proceso para hacer un modelo animado
+	glUseProgram(0);
+
+	// Actividad 3.1: Dibujar personaje
 	// Objeto dinámico (Personaje animado)
 	/* {
 		// Actualización de la animación
@@ -231,10 +227,6 @@ bool Update() {
 	}*/
 
 	// Desactivamos el shader actual
-	//yyyglUseProgram(0);
-
-
-	// glfw: swap buffers 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 
