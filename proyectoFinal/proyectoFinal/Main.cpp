@@ -1,6 +1,6 @@
 ﻿/*
 *
-* Proyecto Final
+* Proyecto final
 */
 
 #include <iostream>
@@ -17,17 +17,18 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <irrKlang.h>
+using namespace irrklang;
 // Model loading classes
 #include <shader_m.h>
 #include <camera.h>
 #include <model.h>
 #include <animatedmodel.h>
-#include <iostream>
 
 // Functions
 bool Start();
 bool Update();
+void InitSounds();
 
 // Definición de callbacks
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -55,8 +56,28 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+#pragma Transformaciones
+// posiciones
+//espositor 1
+glm::vec3 expositor1_position(-1.0f, 6.98f, -1.0f);
+//espositor 2
+glm::vec3 expositor2_position(-14.8f, 6.98f, -1.4f);
+//espositor 3
+glm::vec3 expositor3_position(-7.6f, 6.98f, 1.4f);
+//espositor 4
+glm::vec3 expositor4_position(6.5f, 6.98f, 1.4f);
+//policia
+glm::vec3 policia_position(16.0f, 6.98f, 0.5f);
+// miku
+glm::vec3 miku_position(-1.0f, 14.8f, -1.0f);
 
-glm::vec3 position(-1.0f, 14.8f, -1.0f);
+//	Escalados
+glm::vec3 scale_expositors(0.012f, 0.012f, 0.012f);           // expositor 1 (escala original)
+glm::vec3 scale_expositors_small(0.0012f, 0.0012f, 0.0012f);  // policia
+glm::vec3 scale_expositors_xs(0.0009f, 0.0009f, 0.0009f);     // expositor 2 y 3 (0.0012 * 0.75)
+glm::vec3 scale_miku(0.0005f, 0.0005f, 0.0005f);
+
+// globales
 glm::vec3 forwardView(0.0f, 0.0f, 1.0f);
 float     scaleV = 0.005f;
 float     rotateCharacter = 0.0f;
@@ -66,19 +87,28 @@ float     rotateTable = 0.0f;
 Shader* staticShader;
 Shader* dynamicShader;
 
-// Carga la información del modelo
+// Modelos estáticos
 Model* house;
-Model* escenario; // <-- Añadido para el escenario
-// Model *chair, *table;
-AnimatedModel* character;
+Model* escenario;
+
+// Modelos dinámicos
+AnimatedModel* expositor1;
+AnimatedModel* expositor2;
+AnimatedModel* expositor3;
+AnimatedModel* policia;
+AnimatedModel* miku;
+
+// Audio
+ISoundEngine* SoundEngine = createIrrKlangDevice();
+ISound* musicaFondo = nullptr;
 
 // Entrada a función principal
 int main()
 {
+	InitSounds();
 	if (!Start())
 		return -1;
 
-	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		if (!Update())
@@ -87,27 +117,14 @@ int main()
 
 	glfwTerminate();
 	return 0;
-
-	// Loop de renderizado
-	while (!glfwWindowShouldClose(window))
-	{
-
-	}
-
-	// glfw: Terminamos el programa y liberamos memoria
-	glfwTerminate();
-	return 0;
 }
 
 bool Start() {
-	// Inicialización de GLFW
-
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// Creación de la ventana con GLFW
 	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FBX Model Loading", NULL, NULL);
 	if (window == NULL)
 	{
@@ -120,119 +137,167 @@ bool Start() {
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
-	// Ocultar el cursor mientras se rota la escena
-	// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	// glad: Cargar todos los apuntadores
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
 
-	// Activación de buffer de profundidad
 	glEnable(GL_DEPTH_TEST);
 
-	// Compilación y enlace de shaders
 	dynamicShader = new Shader("Shader/09_vertex_skinning.vs", "Shader/09_fragment_skinning.fs");
 	staticShader = new Shader("Shader/10_vertex_simple.vs", "Shader/10_fragment_simple.fs");
 
-	// Máximo número de huesos: 100 por defecto
 	dynamicShader->setBonesIDs(MAX_RIGGING_BONES);
 
-	house = new Model("models/Lobby/lobby.obj");
-	escenario = new Model("models/Lobby/escenario.obj"); // <-- Carga del modelo escenario
-	// Actividad 3.0: Importar personaje
-	character = new AnimatedModel("models/Lobby//miku.fbx");
+	// Carga de modelos
+	{
+		house = new Model("models/Lobby/lobby.obj");
+		escenario = new Model("models/Lobby/escenario.obj");
 
+		miku = new AnimatedModel("models/Lobby/miku.fbx");
+		expositor1 = new AnimatedModel("models/Lobby/expositor_1.fbx");
+		expositor2 = new AnimatedModel("models/Lobby/expositor_2.fbx");
+		expositor3 = new AnimatedModel("models/Lobby/expositor_3.fbx");
+		policia = new AnimatedModel("models/Lobby/poli.fbx");
+	}
 	return true;
 }
 
+void InitSounds() {
+	musicaFondo = SoundEngine->play2D("sound/bosque-120184.mp3", true, false, true);
+}
+
 bool Update() {
-	// Cálculo del framerate
 	float currentFrame = (float)glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	// Procesa la entrada del teclado o mouse
 	processInput(window);
 
-	// Renderizado R - G - B - A
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
 	glm::mat4 view = camera.GetViewMatrix();
-	// Objeto estático (escenario y puente)
-	{
-		// Activamos el shader del plano
-		staticShader->use();
 
-		// Activamos para objetos transparentes
+	// Objetos estáticos
+	{
+		staticShader->use();
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		// Aplicamos transformaciones de proyección y cámara (si las hubiera)
 		staticShader->setMat4("projection", projection);
 		staticShader->setMat4("view", view);
 
-		// Aplicamos transformaciones del modelo (CASA)
+		// Casa
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		staticShader->setMat4("model", model);
-
 		house->Draw(*staticShader);
 
-		// Aplicamos transformaciones del modelo (ESCENARIO)
+		// Escenario
 		glm::mat4 modelEscenario = glm::mat4(1.0f);
 		modelEscenario = glm::translate(modelEscenario, glm::vec3(0.0f, 0.0f, 0.0f));
 		modelEscenario = glm::rotate(modelEscenario, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		modelEscenario = glm::scale(modelEscenario, glm::vec3(1.0f, 1.0f, 1.0f));
 		staticShader->setMat4("model", modelEscenario);
-
-		escenario->Draw(*staticShader); // <-- Dibujando el escenario
+		escenario->Draw(*staticShader);
 	}
-
 	glUseProgram(0);
 
-	glUseProgram(0);
-	// Objeto dinámico (Personaje animado)
+	// Miku
 	{
-		// Actualización de la animación
-		character->UpdateAnimation(deltaTime);
-
-		// Activación del shader del personaje
+		miku->UpdateAnimation(deltaTime);
 		dynamicShader->use();
-
-		// Aplicamos transformaciones de proyección y cámara (si las hubiera)
 		dynamicShader->setMat4("projection", projection);
 		dynamicShader->setMat4("view", view);
 
-		// Aplicamos transformaciones del modelo
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, position); // translate it down so it's at the center of the scene
-		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.0005f, 0.0005f, 0.0005f));	// it's a bit too big for our scene, so scale it down
-
+		model = glm::translate(model, miku_position);
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, scale_miku);
 		dynamicShader->setMat4("model", model);
-
-		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, character->gBones);
-
-		// Dibujamos el modelo
-		character->Draw(*dynamicShader);
+		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, miku->gBones);
+		miku->Draw(*dynamicShader);
 	}
+	glUseProgram(0);
 
-	// Desactivamos el shader actual
+	// Expositor 1 (escala original)
+	{
+		expositor1->UpdateAnimation(deltaTime);
+		dynamicShader->use();
+		dynamicShader->setMat4("projection", projection);
+		dynamicShader->setMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, expositor1_position);
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, scale_expositors);
+		dynamicShader->setMat4("model", model);
+		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, expositor1->gBones);
+		expositor1->Draw(*dynamicShader);
+	}
+	glUseProgram(0);
+
+	// Expositor 2 (escala reducida)
+	{
+		expositor2->UpdateAnimation(deltaTime);
+		dynamicShader->use();
+		dynamicShader->setMat4("projection", projection);
+		dynamicShader->setMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, expositor2_position);
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, scale_expositors_xs);
+		dynamicShader->setMat4("model", model);
+		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, expositor2->gBones);
+		expositor2->Draw(*dynamicShader);
+	}
+	glUseProgram(0);
+
+	// Expositor 3 (escala reducida)
+	{
+		expositor3->UpdateAnimation(deltaTime);
+		dynamicShader->use();
+		dynamicShader->setMat4("projection", projection);
+		dynamicShader->setMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, expositor3_position);
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, scale_expositors_xs);
+		dynamicShader->setMat4("model", model);
+		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, expositor3->gBones);
+		expositor3->Draw(*dynamicShader);
+	}
+	glUseProgram(0);
+
+	// Policia (escala reducida)
+	{
+		policia->UpdateAnimation(deltaTime);
+		dynamicShader->use();
+		dynamicShader->setMat4("projection", projection);
+		dynamicShader->setMat4("view", view);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, policia_position);
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, scale_expositors_small);
+		dynamicShader->setMat4("model", model);
+		dynamicShader->setMat4("gBones", MAX_RIGGING_BONES, policia->gBones);
+		policia->Draw(*dynamicShader);
+	}
+	glUseProgram(0);
+
 	glfwSwapBuffers(window);
 	glfwPollEvents();
-
 	return true;
 }
 
-// Procesamos entradas del teclado
-// Procesamos entradas del teclado
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -246,7 +311,6 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-	// Movimiento vertical (Vuelo) agregados
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		camera.ProcessKeyboard(UP_DIR, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
@@ -259,32 +323,6 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 
-	// Character movement
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		position = position + scaleV * forwardView;
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		position = position - scaleV * forwardView;
-	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-		rotateCharacter += 0.5f;
-
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::vec4 viewVector = model * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		forwardView = glm::vec3(viewVector);
-		forwardView = glm::normalize(forwardView);
-	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		rotateCharacter -= 0.5f;
-
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::vec4 viewVector = model * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-		forwardView = glm::vec3(viewVector);
-		forwardView = glm::normalize(forwardView);
-	}
-
 	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
 	{
 		// rotateTable += 0.05f;
@@ -295,14 +333,11 @@ void processInput(GLFWwindow* window)
 	}
 }
 
-// glfw: Actualizamos el puerto de vista si hay cambios del tamaño
-// de la ventana
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
 
-// glfw: Callback del movimiento y eventos del mouse
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	if (firstMouse)
@@ -321,7 +356,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
-// glfw: Complemento para el movimiento y eventos del mouse
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll((float)yoffset);
