@@ -1,6 +1,6 @@
 ﻿/*
 *
-* 05 - Carga de modelos e interacción
+* Proyecto Final
 */
 
 #include <iostream>
@@ -56,7 +56,7 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 
-glm::vec3 position(0.0f, 0.0f, 0.0f);
+glm::vec3 position(-1.0f, 14.8f, -1.0f);
 glm::vec3 forwardView(0.0f, 0.0f, 1.0f);
 float     scaleV = 0.005f;
 float     rotateCharacter = 0.0f;
@@ -143,7 +143,7 @@ bool Start() {
 	house = new Model("models/Lobby/lobby.obj");
 	escenario = new Model("models/Lobby/escenario.obj"); // <-- Carga del modelo escenario
 	// Actividad 3.0: Importar personaje
-	//character = new AnimatedModel("models/character.fbx");
+	character = new AnimatedModel("models/Lobby//miku.fbx");
 
 	return true;
 }
@@ -163,7 +163,7 @@ bool Update() {
 
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 10000.0f);
 	glm::mat4 view = camera.GetViewMatrix();
-	// Objeto estático (casa)
+	// Objeto estático (escenario y puente)
 	{
 		// Activamos el shader del plano
 		staticShader->use();
@@ -198,10 +198,8 @@ bool Update() {
 	glUseProgram(0);
 
 	glUseProgram(0);
-
-	// Actividad 3.1: Dibujar personaje
 	// Objeto dinámico (Personaje animado)
-	/* {
+	{
 		// Actualización de la animación
 		character->UpdateAnimation(deltaTime);
 
@@ -216,7 +214,7 @@ bool Update() {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, position); // translate it down so it's at the center of the scene
 		model = glm::rotate(model, glm::radians(rotateCharacter), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));	// it's a bit too big for our scene, so scale it down
+		model = glm::scale(model, glm::vec3(0.0005f, 0.0005f, 0.0005f));	// it's a bit too big for our scene, so scale it down
 
 		dynamicShader->setMat4("model", model);
 
@@ -224,7 +222,7 @@ bool Update() {
 
 		// Dibujamos el modelo
 		character->Draw(*dynamicShader);
-	}*/
+	}
 
 	// Desactivamos el shader actual
 	glfwSwapBuffers(window);
