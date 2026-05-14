@@ -1,7 +1,7 @@
-# Blender 5.1.1 MTL File: 'puente_sin_personas.blend'
+# Blender 5.1.1 MTL File: 'puente_sin_personas_respaldo.blend'
 # www.blender.org
 
-newmtl Barandal
+newmtl Barandal.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -11,7 +11,7 @@ d 1.000000
 illum 2
 map_Kd barandalRojo.png
 
-newmtl Barandales.003
+newmtl Barandales.001
 Ns 980.100037
 Ka 1.000000 1.000000 1.000000
 Ks 0.779005 0.779005 0.779005
@@ -21,17 +21,7 @@ d 1.000000
 illum 2
 map_Kd barandal.png
 
-newmtl Crystal_Amethyst
-Ns 463.900482
-Ka 0.291339 0.291339 0.291339
-Ks 0.500000 0.500000 0.500000
-Ni 1.500000
-d 0.795276
-illum 6
-map_Kd Amethyst Crystals-Color 1K.png
-map_Ke crystal-amethyst3.png
-
-newmtl Crystal_Amethyst.001
+newmtl Crystal_Amethyst.002
 Ns 463.900482
 Ka 0.291339 0.291339 0.291339
 Ks 0.500000 0.500000 0.500000
@@ -41,67 +31,17 @@ illum 6
 map_Kd Red Crystal-Color 1K.png
 map_Ke crystal-amethyst3.png
 
-newmtl Material.001
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
+newmtl Crystal_Amethyst.003
+Ns 463.900482
+Ka 0.291339 0.291339 0.291339
 Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
 Ni 1.500000
-d 1.000000
-illum 2
-map_Kd VigilanciaTexture.png
-
-newmtl Material.002
-Ns 360.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
+d 0.795276
+illum 6
+map_Kd Amethyst Crystals-Color 1K.png
+map_Ke crystal-amethyst3.png
 
 newmtl Material.003
-Ns 250.000000
-Ka 0.425926 0.425926 0.425926
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 3
-map_Kd negro.png
-
-newmtl Material.004
-Ns 250.000000
-Ka 0.425926 0.425926 0.425926
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 3
-map_Kd negro.png
-
-newmtl Material.005
-Ns 360.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-illum 2
-map_Kd negro.png
-map_d negro.png
-
-newmtl Material.006
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd Saphire Geode B-Color 1K.png
-
-newmtl Material.007
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -112,6 +52,46 @@ illum 2
 map_Kd Crystal-Color 1K.png
 
 newmtl Material.008
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Saphire Geode B-Color 1K.png
+
+newmtl Material.009
+Ns 250.000000
+Ka 0.425926 0.425926 0.425926
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd negro.png
+
+newmtl Material.010
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 2
+map_Kd negro.png
+map_d negro.png
+
+newmtl Material.011
+Ns 250.000000
+Ka 0.425926 0.425926 0.425926
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd negro.png
+
+newmtl Material.012
 Ns 360.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -121,7 +101,27 @@ illum 2
 map_Kd ia_text.png
 map_d ia_text.png
 
-newmtl Material.009
+newmtl Material.013
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd VigilanciaTexture.png
+
+newmtl Material.014
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Material.015
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -131,7 +131,7 @@ d 1.000000
 illum 2
 map_Kd bano2.png
 
-newmtl Muroo
+newmtl Muroo.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -141,7 +141,7 @@ d 1.000000
 illum 2
 map_Kd ParedMuro2.png
 
-newmtl Muroo.001
+newmtl Muroo.003
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -151,7 +151,7 @@ d 1.000000
 illum 2
 map_Kd ParedMuro2.png
 
-newmtl Pilar
+newmtl Pilar.001
 Ns 12.783762
 Ka 1.000000 1.000000 1.000000
 Ks 0.208543 0.208543 0.208543
@@ -161,7 +161,7 @@ d 1.000000
 illum 2
 map_Kd Pilar.png
 
-newmtl Piso1
+newmtl Piso1.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -171,7 +171,7 @@ d 1.000000
 illum 2
 map_Kd piso.png
 
-newmtl Piso2
+newmtl Piso2.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -191,27 +191,7 @@ d 1.000000
 illum 2
 map_Kd arcade1.png
 
-newmtl back_poster2
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd motosports_2.png
-
-newmtl back_poster2.002
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd pumahat_2.png
-
-newmtl back_poster2.003
+newmtl back_poster2.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -261,7 +241,7 @@ d 1.000000
 illum 2
 map_Kd ieee1.png
 
-newmtl back_poster3
+newmtl back_poster2.008
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -269,9 +249,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd motosports_3.png
+map_Kd pumahat_2.png
 
-newmtl back_poster3.001
+newmtl back_poster2.009
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -279,9 +259,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd pumahat_3.png
+map_Kd motosports_2.png
 
-newmtl back_poster3.002
+newmtl back_poster3.003
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -331,7 +311,7 @@ d 1.000000
 illum 2
 map_Kd ieee2.png
 
-newmtl back_poster_1
+newmtl back_poster3.008
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -339,7 +319,17 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd motosports_1.png
+map_Kd pumahat_3.png
+
+newmtl back_poster3.009
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd motosports_3.png
 
 newmtl back_poster_1.001
 Ns 250.000000
@@ -350,36 +340,6 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd IEEE.png
-
-newmtl back_poster_1.002
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd pumahat_1.png
-
-newmtl back_poster_1.003
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd aapg_logo.png
-
-newmtl back_poster_1.004
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd cartel_feria.png
 
 newmtl back_poster_1.005
 Ns 250.000000
@@ -411,7 +371,47 @@ d 1.000000
 illum 2
 map_Kd siafii.png
 
-newmtl basin.002
+newmtl back_poster_1.008
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd cartel_feria.png
+
+newmtl back_poster_1.009
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd aapg_logo.png
+
+newmtl back_poster_1.010
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd pumahat_1.png
+
+newmtl back_poster_1.011
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd motosports_1.png
+
+newmtl basin.003
 Ns 200.000000
 Ka 1.000000 1.000000 1.000000
 Ks 1.000000 1.000000 1.000000
@@ -421,17 +421,7 @@ d 1.000000
 illum 2
 map_Kd bano2.png
 
-newmtl entrada
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd bano3.png
-
-newmtl entrada.001
+newmtl entrada.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -441,7 +431,17 @@ d 1.000000
 illum 2
 map_Kd we.png
 
-newmtl gOLD
+newmtl entrada.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd bano3.png
+
+newmtl gOLD.003
 Ns 200.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800007 0.594049 0.060002
@@ -451,7 +451,7 @@ Ni 1.500000
 d 1.000000
 illum 2
 
-newmtl gOLD.002
+newmtl gOLD.004
 Ns 200.000000
 Ka 1.000000 1.000000 1.000000
 Ks 1.000000 1.000000 1.000000
@@ -461,7 +461,7 @@ d 1.000000
 illum 2
 map_Kd barandal.png
 
-newmtl lambert1.001
+newmtl lambert1.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -471,7 +471,7 @@ d 1.000000
 illum 2
 map_Kd bano2.png
 
-newmtl logo-unam-png-blanco-ok
+newmtl logo-unam-png-blanco-ok.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -481,27 +481,7 @@ illum 2
 map_Kd logo-unam-png-blanco-ok.png
 map_d logo-unam-png-blanco-ok.png
 
-newmtl material_stand
-Ns 250.000000
-Ka 0.832061 0.832061 0.832061
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 3.700000
-d 1.000000
-illum 3
-map_Kd negro.png
-
-newmtl material_stand.003
-Ns 250.000000
-Ka 0.832061 0.832061 0.832061
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 3.700000
-d 1.000000
-illum 3
-map_Kd negro.png
-
-newmtl material_stand.005
+newmtl material_stand.008
 Ns 250.000000
 Ka 0.832061 0.832061 0.832061
 Ks 0.500000 0.500000 0.500000
@@ -512,6 +492,26 @@ illum 3
 map_Kd negro.png
 
 newmtl material_stand.009
+Ns 250.000000
+Ka 0.832061 0.832061 0.832061
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 3.700000
+d 1.000000
+illum 3
+map_Kd negro.png
+
+newmtl material_stand.010
+Ns 250.000000
+Ka 0.832061 0.832061 0.832061
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 3.700000
+d 1.000000
+illum 3
+map_Kd negro.png
+
+newmtl material_stand.011
 Ns 250.000000
 Ka 0.832061 0.832061 0.832061
 Ks 0.500000 0.500000 0.500000
@@ -561,7 +561,7 @@ d 1.000000
 illum 2
 map_Kd hacker-attack.png
 
-newmtl picaporte
+newmtl picaporte.001
 Ns 250.000000
 Ka 0.951872 0.951872 0.951872
 Ks 0.500000 0.500000 0.500000
@@ -571,7 +571,7 @@ d 1.000000
 illum 3
 map_Kd dorado.png
 
-newmtl pico
+newmtl pico.001
 Ns 404.958740
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -581,17 +581,7 @@ d 1.000000
 illum 3
 map_Kd bano2.png
 
-newmtl poster
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd poster_motosports.png
-
-newmtl poster.001
+newmtl poster.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -600,6 +590,16 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd cartel_pumahat.png
+
+newmtl poster.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd poster_motosports.png
 
 newmtl poster.004
 Ns 250.000000
@@ -641,17 +641,7 @@ d 1.000000
 illum 2
 map_Kd IEEE_COMSOC.png
 
-newmtl roca
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd Emerald  Geode A-Color 1K.png
-
-newmtl roca.001
+newmtl roca.002
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -661,7 +651,17 @@ d 1.000000
 illum 2
 map_Kd Saphire Geode A-Color 1K.png
 
-newmtl roca2
+newmtl roca.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Emerald  Geode A-Color 1K.png
+
+newmtl roca2.001
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -671,7 +671,7 @@ d 1.000000
 illum 2
 map_Kd Emerald-Color 1K.png
 
-newmtl rock_1
+newmtl rock_1.001
 Ns 557.374756
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -682,7 +682,7 @@ illum 2
 map_Kd Saphire Geode B-Color 1K.png
 map_Bump -bm 1.000000 Rocks small-normal.png
 
-newmtl textura.cubre.003
+newmtl textura.cubre.008
 Ns 36000.000000
 Ka 2.000000 2.000000 2.000000
 Kd 0.799110 0.596015 0.341439
@@ -692,7 +692,7 @@ Ni 1.500000
 d 1.000000
 illum 3
 
-newmtl textura.cubre.005
+newmtl textura.cubre.009
 Ns 36000.000000
 Ka 2.000000 2.000000 2.000000
 Kd 0.799110 0.596015 0.341439
@@ -712,7 +712,7 @@ d 1.000000
 illum 3
 map_Kd madera.png
 
-newmtl textura.poster.003
+newmtl textura.poster.008
 Ns 277.431366
 Ka 0.870229 0.870229 0.870229
 Kd 0.011213 0.015285 0.065939
@@ -722,7 +722,7 @@ Ni 1.500000
 d 1.000000
 illum 3
 
-newmtl textura.poster.005
+newmtl textura.poster.009
 Ns 277.431366
 Ka 0.870229 0.870229 0.870229
 Kd 0.011213 0.015285 0.065939
@@ -732,7 +732,7 @@ Ni 1.500000
 d 1.000000
 illum 3
 
-newmtl wood.002
+newmtl wood.003
 Ns 200.000000
 Ka 1.000000 1.000000 1.000000
 Ks 1.000000 1.000000 1.000000

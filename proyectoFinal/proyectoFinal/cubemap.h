@@ -23,7 +23,7 @@ using namespace std;
 class CubeMap {
 
 public:
-	CubeMap():textureID(0), VAO(0), VBO(0), EBO(0){
+    CubeMap() : textureID(0), VAO(0), VBO(0), EBO(0) {
         float size = 500.0f;
         float skyboxVertices[] = {
             // positions          
@@ -78,12 +78,11 @@ public:
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
         glBindVertexArray(0);
+    }
 
-	}
+    ~CubeMap() {
 
-	~CubeMap() {
-	
-	}
+    }
 
     void loadCubemap(vector<std::string> faces)
     {
@@ -93,11 +92,22 @@ public:
         int width, height, nrChannels;
         for (unsigned int i = 0; i < faces.size(); i++)
         {
+            // Opcional: voltear la imagen verticalmente suele no ser necesario para cubemaps, 
+            // pero si tu cubemap sale de cabeza, descomenta la siguiente línea:
+            // stbi_set_flip_vertically_on_load(false); 
+
             unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
             if (data)
             {
+                // Determinar el formato correcto basándonos en los canales de la imagen (PNG vs JPG)
+                GLenum format = GL_RGB;
+                if (nrChannels == 4)
+                    format = GL_RGBA;
+                else if (nrChannels == 1)
+                    format = GL_RED;
+
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                    0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+                    0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data
                 );
                 stbi_image_free(data);
             }
@@ -112,21 +122,27 @@ public:
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
     }
 
-    void drawCubeMap(Shader &shad, glm::mat4 &projection, glm::mat4 &view) {
-        
+    void drawCubeMap(Shader& shad, glm::mat4& projection, glm::mat4& view) {
+
         glUseProgram(0);
+        // Deshabilitar la escritura en el depth buffer para que el cubemap se dibuje siempre en el fondo
         glDepthMask(GL_FALSE);
         shad.use();
-        
+
+        // El view matrix para el skybox no debe tener traslación, solo rotación
+        glm::mat4 skyboxView = glm::mat4(glm::mat3(view));
+
         shad.setMat4("projection", projection);
-        shad.setMat4("view", view);
+        shad.setMat4("view", skyboxView);
 
         glBindVertexArray(VAO);
         glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-        glDrawArrays(GL_TRIANGLES, 0, 36*3);
+        // Corrección del draw call: son 36 vértices, no 108
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Volver a encender la escritura de profundidad
         glDepthMask(GL_TRUE);
         glUseProgram(0);
     }
@@ -135,9 +151,7 @@ public:
     unsigned int textureID; // Cubemap texture id
 
 private:
-
     unsigned int VBO, EBO;
-
 };
 
 #endif
