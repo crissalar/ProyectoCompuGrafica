@@ -1,4 +1,4 @@
-# Blender 5.1.1 MTL File: 'puente_sin_personas_respaldo.blend'
+# Blender 5.1.1 MTL File: 'None'
 # www.blender.org
 
 newmtl Barandal.001
@@ -71,16 +71,6 @@ d 1.000000
 illum 3
 map_Kd negro.png
 
-newmtl Material.010
-Ns 360.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-illum 2
-map_Kd negro.png
-map_d negro.png
-
 newmtl Material.011
 Ns 250.000000
 Ka 0.425926 0.425926 0.425926
@@ -130,6 +120,16 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd bano2.png
+
+newmtl Material.026
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Meshy_AI__0513031207_texture.png
 
 newmtl Muroo.002
 Ns 250.000000
@@ -431,16 +431,6 @@ d 1.000000
 illum 2
 map_Kd we.png
 
-newmtl entrada.003
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd bano3.png
-
 newmtl gOLD.003
 Ns 200.000000
 Ka 1.000000 1.000000 1.000000
@@ -482,16 +472,6 @@ map_Kd logo-unam-png-blanco-ok.png
 map_d logo-unam-png-blanco-ok.png
 
 newmtl material_stand.008
-Ns 250.000000
-Ka 0.832061 0.832061 0.832061
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 3.700000
-d 1.000000
-illum 3
-map_Kd negro.png
-
-newmtl material_stand.009
 Ns 250.000000
 Ka 0.832061 0.832061 0.832061
 Ks 0.500000 0.500000 0.500000
@@ -560,16 +540,6 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd hacker-attack.png
-
-newmtl picaporte.001
-Ns 250.000000
-Ka 0.951872 0.951872 0.951872
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 3
-map_Kd dorado.png
 
 newmtl pico.001
 Ns 404.958740
@@ -682,28 +652,8 @@ illum 2
 map_Kd Saphire Geode B-Color 1K.png
 map_Bump -bm 1.000000 Rocks small-normal.png
 
-newmtl textura.cubre.008
-Ns 36000.000000
-Ka 2.000000 2.000000 2.000000
-Kd 0.799110 0.596015 0.341439
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 3
-
-newmtl textura.cubre.009
-Ns 36000.000000
-Ka 2.000000 2.000000 2.000000
-Kd 0.799110 0.596015 0.341439
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 3
-
 newmtl textura.cubre.016
-Ns 36000.000000
+Ns 1000.000000
 Ka 2.000000 2.000000 2.000000
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
@@ -713,16 +663,6 @@ illum 3
 map_Kd madera.png
 
 newmtl textura.poster.008
-Ns 277.431366
-Ka 0.870229 0.870229 0.870229
-Kd 0.011213 0.015285 0.065939
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 3
-
-newmtl textura.poster.009
 Ns 277.431366
 Ka 0.870229 0.870229 0.870229
 Kd 0.011213 0.015285 0.065939
